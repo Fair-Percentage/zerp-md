@@ -9,9 +9,9 @@
 
 char mylog(u16 num) {
 	char n = 0;
-    if (num == 0) return -1;
-    while (num >>= 1) n++;
-    return n;
+	if (num == 0) return -1;
+	while (num >>= 1) n++;
+	return n;
 }
 
 u16 drawnum(u32 val, u16 x, u16 y) {
@@ -30,14 +30,14 @@ u16 drawhex(u32 val, u16 x, u16 y) {
 
 char mytoggle = 0;
 u16 mygetch(void) {
-    static u16 previousState = 0;
-    u16 currentState = 0;
+	static u16 previousState = 0;
+	u16 currentState = 0;
 	u16 mytimer = 0;
-    while (1) {
-        currentState = JOY_readJoypad(JOY_1);
-        u16 newPress = (currentState & (~previousState));
-        previousState = currentState; 
-        if (newPress != 0) { 
+	while (1) {
+		currentState = JOY_readJoypad(JOY_1);
+		u16 newPress = (currentState & (~previousState));
+		previousState = currentState; 
+		if (newPress != 0) { 
 			mytoggle = 0;
 			return mylog(newPress);
 		}
@@ -49,17 +49,17 @@ u16 mygetch(void) {
 			return mylog(currentState);
 		}
 		if (mytimer > 3) mytoggle = 0;
-        SYS_doVBlankProcess();
+		SYS_doVBlankProcess();
 		mytimer++;
     }
 }
 
 void mydraw(const char *str, u16 x, u16 y) {
-    u16 i = 0;
-    while(str[i] != '\0') {
-        u16 tile_to_draw = 16 + (str[i] < 'Z' ? str[i] - 'A' : str[i] - 'a' + 17); 
-        VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, tile_to_draw), x + i++, y);
-    }
+	u16 i = 0;
+	while(str[i] != '\0') {
+		u16 tile_to_draw = 16 + (str[i] < 'Z' ? str[i] - 'A' : str[i] - 'a' + 17); 
+		VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, 0, 0, 0, tile_to_draw), x + i++, y);
+	}
 }
 
 #define WIDTH 20
@@ -669,26 +669,6 @@ int main(u16 hard){
 			dodraw = 1;
 			super = 0;
 			VDP_clearPlane(BG_A, 1);
-			/*
-			i = 12;
-			if (level == 4 && tutorial){
-				VDP_setTextPalette(PAL2);
-				VDP_drawText("!!! TUTORIAL COMPLETED !!!", 6, 6);
-				VDP_setTextPalette(PAL0);
-			}
-			VDP_drawText("Level", i, 8 + tutorial);
-			i += 6;
-			i += drawnum(level, i, 8 + tutorial);
-			VDP_drawText(" clear!", i, 8 + tutorial);
-			if (!tutorial){
-				VDP_drawText("Sector:", 9, 10);
-				drawnum(seed, 26, 10);
-			}
-			VDP_drawText("Turns:", 9, 11); drawnum(turns, 26, 11);
-			VDP_drawText("Score gain:", 9, 12); drawnum(score - scr_lv, 26, 12);
-			VDP_drawText("Charges used:", 9, 13); drawnum(bms_lv - bombs, 26, 13);
-			VDP_drawText("Retries:", 9, 14); drawnum(retries, 26, 14);
-			VDP_drawText("Press a button...", 11, 16);*/
 			i = 12;
 			if (level == 4 && tutorial){
 				VDP_setTextPalette(PAL2);

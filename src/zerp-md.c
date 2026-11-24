@@ -1,4 +1,4 @@
-/* First version to be written to a cart */
+/* Second version to be written to a cart */
 
 #include <genesis.h>
 #include <timer.h>
@@ -6,6 +6,13 @@
 #include "resources.h"
 
 #define SND(f) PSG_setTone(0, 111861/f); PSG_setEnvelope(0, 0);
+
+volatile u16 pad1 = 0;
+
+void joyread(u16 joy, u16 changed, u16 state) {
+	if (joy == JOY_1)
+		pad1 = state;
+}
 
 char mylog(u16 num) {
 	char n = 0;
@@ -34,7 +41,7 @@ u16 mygetch(void) {
 	u16 currentState = 0;
 	u16 mytimer = 0;
 	while (1) {
-		currentState = JOY_readJoypad(JOY_1);
+		currentState = pad1;
 		u16 newPress = (currentState & (~previousState));
 		previousState = currentState; 
 		if (newPress != 0) { 
@@ -348,6 +355,7 @@ int main(u16 hard){
 	PAL_setPalette(PAL1, custom_font.palette->data, DMA);
 	VDP_loadTileSet(custom_font.tileset, 16, DMA);
 	JOY_init();
+	JOY_setEventHandler(&joyread);
 	title:
 	mptr = 1;
 	VDP_clearPlane(BG_A, 1);
@@ -366,6 +374,8 @@ int main(u16 hard){
 		VDP_drawText(mptr == 2 ? ">  FIXED ORDER  <" : "   FIXED ORDER   ", 11, 17);
 		VDP_setTextPalette(PAL0);
 		p_i = mygetch();
+		if (p_i == 5) style = 1;
+		else style = 0;
 		if (p_i == 7 || p_i == 6 || p_i == 5 || p_i == 4) break;
 		if (p_i == 1 || p_i == 3) mptr = (mptr + 2) % 3;
 		mptr = (mptr + 2) % 3;
@@ -500,7 +510,6 @@ int main(u16 hard){
 		switch (p_i){
 			case 5: SND(456) dodraw = 0; break;
 			case 0: dodraw = 0; break;
-			case 11: style = !style; skip_ai++; break;
 			case 7: 
 				goto title;
 			case 4: {

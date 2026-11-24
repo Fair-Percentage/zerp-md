@@ -9,10 +9,10 @@ const ROMHeader rom_header = {
 #else
     "SEGA MEGA DRIVE ",
 #endif
-    "(C)KRAB 2024.JUN",
+    "(C)KRAB 2026.JUN",
     "PROJECT ZERP                                    ",
     "PROJECT ZERP                                    ",
-    "GM 00000000-00",
+    "GM 00000000-01",
     0x000,
     "JD              ",
     0x00000000,
@@ -28,6 +28,6 @@ const ROMHeader rom_header = {
     0x00200000,
     0x0020FFFF,
     "            ",
-    "DEMONSTRATION PROGRAM                   ",
+    "ENDLESS PUZZLE PLATFORMER               ",
     "JUE             "
 };
